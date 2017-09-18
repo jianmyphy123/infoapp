@@ -4,7 +4,7 @@ block content
   h1= title
 
   if users
-    table
+    table(class='table')
       tr
         th No
         th First Name
@@ -17,6 +17,6 @@ block content
           td #{user.firstname}
           td #{user.lastname}
           td
-            a(href="/updateUser/#{user.firstname + ' ' + user.lastname}/#{i}") Update
+            a.btn.btn-warning(href="/updateUser/#{user.firstname + ' ' + user.lastname}/#{i}") Update
           td
-            a(href="/deleteUser/#{i}") Delete
+            a.btn.btn-danger(href="/deleteUser/#{i}") Delete

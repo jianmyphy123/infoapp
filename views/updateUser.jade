@@ -3,12 +3,13 @@ extends layout
 block content
   h1= title
 
-  form(method="post", action='/updateUser')
-    input(type='text', name='firstname', value="#{user ? user.firstname : ''}", required)
-    br
-    br
-    input(type='text', name='lastname', value="#{user ? user.lastname : ''}", required)
-    br
-    br
+  form(method="post", action='/updateUser', style='width: 300px;')
+    div.form-group
+      label First Name
+      input.form-control(type='text', name='firstname', value="#{user ? user.firstname : ''}", required)
+    div.form-group
+      label Last Name
+      input.form-control(type='text', name='lastname', value="#{user ? user.lastname : ''}", required)
     input(type='hidden', name='number', value='#{user.number}')
-    input(type='submit', value='Update')
+
+    input.btn.btn-default(type='submit', value='Update')
