@@ -10,7 +10,7 @@ block content
         th First Name
         th Last Name
         th
-
+        th
       each user, i in users
         tr
           td #{i+1}
@@ -18,3 +18,5 @@ block content
           td #{user.lastname}
           td
             a(href="/updateUser/#{user.firstname + ' ' + user.lastname}/#{i}") Update
+          td
+            a(href="/deleteUser/#{i}") Delete

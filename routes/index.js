@@ -99,4 +99,21 @@ router.post('/updateUser', function(req, res) {
 
 });
 
+
+
+
+// Delete User
+
+router.get('/deleteUser/:number', function(req, res) {
+
+  var number = req.params.number;
+
+  var users = readUsers();
+  users.splice(number, 1);
+
+  writeUsers(users);
+
+  res.redirect('/');
+
+});
 module.exports = router;
