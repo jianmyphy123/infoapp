@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1= title
+
+  form(method="post", action='/updateUser')
+    input(type='text', name='firstname', value="#{user ? user.firstname : ''}", required)
+    br
+    br
+    input(type='text', name='lastname', value="#{user ? user.lastname : ''}", required)
+    br
+    br
+    input(type='hidden', name='number', value='#{user.number}')
+    input(type='submit', value='Update')

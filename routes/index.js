@@ -12,22 +12,22 @@ function readUsers() {
   return dataString.split(',');
 }
 
-function writeUsers(dataArr) {
+function writeUsers(users) {
 
-  fs.writeFileSync('public/data.txt', dataArr);
+  fs.writeFileSync('public/data.txt', users);
 
 }
 
 // Display User List
 router.get('/', function(req, res, next) {
 
-  var dataArr = readUsers();
+  var users = readUsers();
 
-  var users = dataArr.map( user => {
-    var splittedName = user.split(' ');
+  var users = users.map( user => {
+    var names = user.split(' ');
     return {
-      firstname: splittedName[0],
-      lastname: splittedName[1]
+      firstname: names[0],
+      lastname: names[1]
     }
   });
 
@@ -50,11 +50,50 @@ router.post('/createUser', function(req, res) {
   var firstname = req.body.firstname;
   var lastname = req.body.lastname;
 
-  var dataArr = readUsers();
+  var users = readUsers();
 
-  dataArr.push(firstname + ' ' + lastname);
+  users.push(firstname + ' ' + lastname);
 
-  writeUsers(dataArr);
+  writeUsers(users);
+
+  res.redirect('/');
+
+});
+
+
+
+// Update User
+
+router.get('/updateUser/:username/:number', function(req, res) {
+
+  var username = req.params.username;
+  var number = req.params.number;
+
+  var names = username.split(' ');
+
+  var user = {
+    firstname: names[0],
+    lastname: names[1],
+    number
+  };
+
+  res.render('updateUser', { user, title: 'Update User'});
+
+});
+
+router.post('/updateUser', function(req, res) {
+
+  var firstname = req.body.firstname;
+  var lastname = req.body.lastname;
+  var number = req.body.number;
+
+  var username = firstname + ' ' + lastname;
+
+  var users = readUsers();
+
+  users[number] = username;
+
+  writeUsers(users);
 
   res.redirect('/');
 

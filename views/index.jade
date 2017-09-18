@@ -9,8 +9,12 @@ block content
         th No
         th First Name
         th Last Name
+        th
+
       each user, i in users
         tr
           td #{i+1}
           td #{user.firstname}
           td #{user.lastname}
+          td
+            a(href="/updateUser/#{user.firstname + ' ' + user.lastname}/#{i}") Update
