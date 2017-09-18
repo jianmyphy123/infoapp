@@ -2,23 +2,62 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
-router.post('/', function(req, res, next) {
-  var firstname = req.body.firstname;
-  var lastname = req.body.lastname;
+function readUsers() {
 
-  var dataArr = fs.readFileSync('public/data.txt').toString().split(',');
+  var dataString = fs.readFileSync('public/data.txt').toString();
 
-  dataArr.push(firstname + ' ' + lastname);
+  if(dataString == '' || dataString == null || dataString == undefined)
+    return [];
+
+  return dataString.split(',');
+}
+
+function writeUsers(dataArr) {
 
   fs.writeFileSync('public/data.txt', dataArr);
 
-  var data = fs.readFileSync('public/data.txt');
+}
 
-  console.log(data.toString());
+// Display User List
+router.get('/', function(req, res, next) {
+
+  var dataArr = readUsers();
+
+  var users = dataArr.map( user => {
+    var splittedName = user.split(' ');
+    return {
+      firstname: splittedName[0],
+      lastname: splittedName[1]
+    }
+  });
+
+  res.render('index', { users, title: 'User List' })
+
+});
+
+
+
+
+// Create User
+router.get('/createUser', function(req, res) {
+
+  res.render('createUser', { title: 'Create User' });
+
+});
+
+router.post('/createUser', function(req, res) {
+
+  var firstname = req.body.firstname;
+  var lastname = req.body.lastname;
+
+  var dataArr = readUsers();
+
+  dataArr.push(firstname + ' ' + lastname);
+
+  writeUsers(dataArr);
+
+  res.redirect('/');
+
 });
 
 module.exports = router;
